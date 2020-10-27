@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ButtonHTMLAttributes, useCallback, useEffect, useState } from 'react';
 
-function App() {
+const Button = ({...props }: ButtonHTMLAttributes<HTMLButtonElement>) => {
+  useEffect(() => {
+    console.log('button re-render')
+  })
+
+  useEffect(() => {
+    console.log('button: on click render')
+  }, [props.onClick])
+
+  return <button {...props}/>
+}
+
+const App = () => {
+  const [ count, setCount ] = useState<number>(0)
+
+  useEffect(() => {
+    console.log('app re-render')
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>hello world!</h1>
+      <h4>Count: {count}</h4>
+      <Button onClick={useCallback(() => setCount(prevState => prevState + 1), [])}>count</Button>
     </div>
   );
 }
